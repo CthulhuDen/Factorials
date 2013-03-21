@@ -26,11 +26,20 @@ def timetest(num, f_list="ALL", info=True, rezs = True, hash = False, hashway = 
 				import hashlib
 				if hashway is None:
 					rez = hashlib.md5(rez).hexdigest()
+					print "\tOutput hash: "+ rez
 				elif isinstance(hashway,str):
-					rez = hashlib.new(hashway,rez)
+					try:
+						rez = hashlib.new(hashway,rez).hexdigest()
+						print "\tOutput hash: "+ rez
+
+					except:
+						print "\tSpecified hash type is not supported!"
 				else:
-					rez = hashway(rez)
-				print "\tOutput hash: "+ rez
+					try:
+						rez = hashway(rez)
+						print "\tOutput hash: "+ rez
+					except:
+						print "\tHash function supported failed!"
 			else:
 				print "\tOutput: "+rez
 funcs["timetest"] = timetest
@@ -362,8 +371,8 @@ funcs["fact_double_perf_spec_reduce_tuned"] = lambda x: funcs["fact_double_perf_
 funclist = alllist+["timetest",]
 run = True
 if run:
-	timetest(100000,["math_fact","fact_double","fact_double_perf","fact_double_perf_spec_reduce",],hash=True)
-	#timetest(40000,["fact_double","fact_double_perf",],rezs=False,hash=True)
-	#timetest(100000,["fact_double_perf_spec_reduce","fact_double_perf_spec_reduce_tuned",],rezs=False,hash=True)
+	timetest(100000,["math_fact","fact_double","fact_double_perf","fact_double_perf_spec_reduce",],hash=True,hashway="sha1")
+	#timetest(4000,["fact_double","fact_double_perf",],hash=True,hashway="lol")
+	#timetest(1000,["fact_double_perf_spec_reduce","fact_double_perf_spec_reduce_tuned",],hash=True,hashway=lambda x:x.org())
 else:
 	present(funclist, funcdiscr)
