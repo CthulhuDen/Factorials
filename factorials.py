@@ -9,7 +9,6 @@ def fact(n):
 			rez = rez * i
 	return rez
 
-#TO THINK - why acts slower then perfected one when both make one split?
 def fact_part(st_fin):
 	st,fin = st_fin
 	rez = 1
