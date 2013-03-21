@@ -62,19 +62,15 @@ funcs["fact_double"] = factorials.fact_double
 alllist.append("fact_double_perf")
 funcdiscr["fact_double_perf"] = "Perfected double-process factorial implementation"
 funcs["fact_double_perf"] = factorials.fact_double_perf
-alllist.append("fact_double_perf_tuned")
-funcdiscr["fact_double_perf_tuned"] = "Perfected double-process factorial implementation TUNED"
-funcs["fact_double_perf_tuned"] = lambda x: factorials.fact_double_perf(x,22,100)
 alllist.append("fact_double_perf_spec_reduce")
 funcdiscr["fact_double_perf_spec_reduce"] = "Two-process with enhanced reduce implementation"
-funcs["fact_double_perf_spec_reduce"] = lambda n,max_blocks=126,min_size=500: factorials.fact_double_perf(n=n,max_blocks=max_blocks,min_size=min_size,spec_reduce=factorials.quickreduce)
-alllist.append("fact_double_perf_spec_reduce_tuned")
-funcdiscr["fact_double_perf_spec_reduce_tuned"] = "Duo-process with enchanced reduce implementation TUNED"
-funcs["fact_double_perf_spec_reduce_tuned"] = lambda e: funcs["fact_double_perf_spec_reduce"] (x,128,100)
+funcs["fact_double_perf_spec_reduce"] = factorials.fact_double_perf_spec_reduce
 alllist.append("factorial")
 funcdiscr["factorial"] = "Optimal choice between all functions available in the module"
 funcs["factorial"] = factorials.factorial
+
 funclist = alllist+["timetest",]
+
 run = True
 if __name__=="__main__":
 	if run:
@@ -83,6 +79,7 @@ if __name__=="__main__":
 		hash = True
 		hashway = None
 		totest = ["math_fact","fact_double","fact_double_perf","fact_double_perf_spec_reduce","factorial",]
+		#totest = ["fact_double_perf_spec_reduce","fact_double_perf_spec_reduce_slaver",]
 		try:
 			if len(sys.argv)>1:
 				num = int(sys.argv[1])
