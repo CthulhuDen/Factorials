@@ -7,7 +7,7 @@ funcs = dict()
 funcdiscr = dict()
 
 funcdiscr["timetest"] = "arg, f_list, info, rezs, hash - test functions"
-def timetest(num, f_list="ALL", info=True, rezs = True, hash = False):
+def timetest(num, f_list="ALL", info=True, rezs = True, hash = False, hashway = None):
 	if (type(f_list)==type("string")) and (f_list.upper()=="ALL"):
 		f_list = alllist
 	for func in f_list:
@@ -23,7 +23,14 @@ def timetest(num, f_list="ALL", info=True, rezs = True, hash = False):
 		if rezs:
 			rez = str(rez)
 			if hash:
-				print "\tOutput md5 hash: "+ hashlib.md5(rez).hexdigest()
+				import hashlib
+				if hashway is None:
+					rez = hashlib.md5(rez).hexdigest()
+				elif isinstance(hashway,str):
+					rez = hashlib.new(hashway,rez)
+				else:
+					rez = hashway(rez)
+				print "\tOutput hash: "+ rez
 			else:
 				print "\tOutput: "+rez
 funcs["timetest"] = timetest
