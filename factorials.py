@@ -19,7 +19,7 @@ def fact_part(st_fin):
 
 def fact_double(n):
 	mid = n/2
-	s = slaves.slaves(2,fact_part)
+	s = slaves.slaves(fact_part)
 	s.put((1,mid))
 	s.put((mid+1,n))
 	s.start()
@@ -32,7 +32,7 @@ def prod(x):
 	return a*b
 
 def fact_double_perf(n, max_blocks=15,min_size=500, spec_reduce=reduce):
-	s = slaves.slaves(4,fact_part)
+	s = slaves.slaves(fact_part)
 	dist = n/max_blocks
 	if dist < min_size:
 		dist = min_size
@@ -54,7 +54,7 @@ def fact_double_perf(n, max_blocks=15,min_size=500, spec_reduce=reduce):
 
 def quickreduce(func,lst,start=None,slavs=None):
 	if slavs is None:
-		s = slaves.slaves(4,prod)
+		s = slaves.slaves(prod)
 		s.start()
 		s.pause()
 	else:
