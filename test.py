@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import time, math, hashlib, factorials
+import sys, time, math, hashlib, factorials
 
 alllist = []
 funcs = dict()
@@ -70,12 +70,32 @@ funcdiscr["fact_double_perf_spec_reduce"] = "Two-process with enhanced reduce im
 funcs["fact_double_perf_spec_reduce"] = lambda n,max_blocks=126,min_size=500: factorials.fact_double_perf(n=n,max_blocks=max_blocks,min_size=min_size,spec_reduce=factorials.quickreduce)
 alllist.append("fact_double_perf_spec_reduce_tuned")
 funcdiscr["fact_double_perf_spec_reduce_tuned"] = "Duo-process with enchanced reduce implementation TUNED"
-funcs["fact_double_perf_spec_reduce_tuned"] = lambda x: funcs["fact_double_perf_spec_reduce"] (x,128,100)
+funcs["fact_double_perf_spec_reduce_tuned"] = lambda e: funcs["fact_double_perf_spec_reduce"] (x,128,100)
+alllist.append("factorial")
+funcdiscr["factorial"] = "Optimal choice between all functions available in the module"
+funcs["factorial"] = factorials.factorial
 funclist = alllist+["timetest",]
 run = True
 if __name__=="__main__":
 	if run:
-		timetest(100000,["math_fact","fact_double","fact_double_perf","fact_double_perf_spec_reduce",],hash=True)
+		num = 100000
+		rezs = True
+		hash = True
+		hashway = None
+		totest = ["math_fact","fact_double","fact_double_perf","fact_double_perf_spec_reduce","factorial",]
+		try:
+			if len(sys.argv)>1:
+				num = int(sys.argv[1])
+			if len(sys.argv)>2:
+				if sys.argv[2].lower()=="number":
+					hash = False
+				elif sys.argv[2].lower()=="hash" and len(sys.argv)>3:
+					hashway = sys.argv[3]
+				elif sys.argv[2].lower()=="noans":
+					rezs = False
+		except:
+			pass
+		timetest(num,totest,hash=hash,rezs=rezs,hashway=hashway)
 		#timetest(4000,["fact_double","fact_double_perf",],hash=True,hashway="lol")
 		#timetest(1000,["fact_double_perf_spec_reduce","fact_double_perf_spec_reduce_tuned",],hash=True,hashway=lambda x:x.org())
 	else:

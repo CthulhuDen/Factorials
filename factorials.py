@@ -8,7 +8,7 @@ def fact(n):
 		for i in range(2,n+1):
 			rez = rez * i
 	return rez
-
+#TO THINK - why acts slower then perfected one when both make one split?
 def fact_double(n):
 	def part(st,fin,pipe):
 		rez = 1
@@ -138,3 +138,13 @@ def quickreduce(func,lst,start=None):
 	finish.set()
 	operate.set()
 	return arr[p][0]
+fact_double_perf_spec_reduce = lambda n,max_blocks=126,min_size=500: fact_double_perf(n=n,max_blocks=max_blocks,min_size=min_size,spec_reduce=quickreduce)
+def factorial(n):
+	if n<5000:
+		return fact(n)
+	elif n<10000:
+		return fact_double_perf(n)
+	elif n<14000:
+		return fact_double(n)
+	else:
+		return fact_double_perf_spec_reduce(n)
